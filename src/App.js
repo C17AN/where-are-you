@@ -13,23 +13,38 @@ function App() {
   const [isLoading, setLoading] = useState(true);
   const [metroInfo, setMetroInfo] = useState([]);
   // 지하철 정보 최초 렌더링 시에만 fetch
+
+  // setLoading 과 axios 동작순서 보장하기 위해 async 사용
+  const axiosAsync = async () => {
+    await axios
+      .get("/api/subway")
+      .then((res) => {
+        console.log(res.data);
+        setMetroInfo(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    setLoading(false);
+  };
+
+  // 그러나, 위의 async 함수는 언제나 프로미스를 반환함.
+  // -> 지하철 정보를 불러오는 함수가 스스로를 반환할 수 있도록
+  // async 함수를 감싸는 함수를 새로 하나 만들어서 스스로를 반환하게 함.
+  const getSubwayAPI = () => {
+    axiosAsync();
+    return getSubwayAPI;
+  };
+
   useEffect(() => {
     if (count === 5) {
       let today = new Date();
       console.log(today);
       alert(`서프라이즈!!`);
     }
-    const intervalID = setInterval(() => {
-      axios
-        .get("/api/subway")
-        .then((res) => {
-          console.log(res);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }, 5000);
-    setLoading(false);
+    // 인터벌 내에 함수 1회 즉시 호출, 이후 60초 주기
+    const intervalID = setInterval(getSubwayAPI(), 60000);
+    // 클린업 함수 -> 언마운트 혹은 업데이트 직전에 수행할 작업
     return () => clearInterval(intervalID);
   }, []);
 
@@ -52,7 +67,7 @@ function App() {
           <span className="loader_text">Loading...</span>
         </div>
       ) : (
-        <Info data={[metroInfo]}></Info>
+        <Info data={metroInfo}></Info>
       )}
       <div className="version">Ver 1.0.0</div>
       <div className="caution">
