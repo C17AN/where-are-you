@@ -5,9 +5,9 @@ const Info = (metroInfo) => {
   console.log(metroInfo);
   const [seoulLineData, setSeoulLineData] = useState([]);
   const [upperLineData, setUpperLineData] = useState([]);
-  const [nextUpperLineData, setNextUpperLineData] = useState([]);
+  const [nextUpperLineMsg, setNextUpperLineMsg] = useState([]);
   const [lowerLineData, setLowerLineData] = useState([]);
-  const [nextLowerLineData, setNextLowerLineData] = useState([]);
+  const [nextLowerLineMsg, setNextLowerLineMsg] = useState([]);
   const [seoulMessage, setSeoulMessage] = useState("");
   const [upperMessage, setUpperMessage] = useState("");
   const [lowerMessage, setLowerMessage] = useState("");
@@ -49,58 +49,34 @@ const Info = (metroInfo) => {
     console.log("Line update");
     setSeoulMessage(
       seoulLineData.length === 0
-        ? "현재 운행중인 차량이 없습니다!"
+        ? "다음 열차정보가 없습니다."
         : // 정규표현식 - [2] -> 2 로 양옆 대괄호 제거함
           `현재 위치 : ${seoulLineData.arvlMsg2.replace(/[[\]]/g, "")}`
     );
-    switch (upperLineData.length) {
-      case 0:
-        setUpperMessage("현재 운행중인 차량이 없습니다!");
-        break;
-      case 1:
-        setUpperMessage([
-          `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
-          `다음 차량정보가 없습니다.`,
-        ]);
-        break;
-      case 2:
-        setUpperMessage([
-          `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
-          `다음 차량 : ${upperLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
-        ]);
-        break;
-      default:
-        setUpperMessage([
-          `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
-          `다음 차량 : ${upperLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
-        ]);
-    }
-    // switch 문 말고도 분명 더 좋은 방법이 있을 것
-    // 한번 생각해보자!
-    switch (lowerLineData.length) {
-      case 0:
-        setLowerMessage("현재 운행중인 차량이 없습니다!");
-        break;
-      case 1:
-        setLowerMessage([
-          `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
-          `다음 차량정보가 없습니다.`,
-        ]);
-        break;
-      case 2:
-        setLowerMessage([
-          `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
-          `다음 차량 : ${lowerLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
-        ]);
-        break;
-      default:
-        setLowerMessage([
-          `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
-          `다음 차량 : ${lowerLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
-        ]);
-    }
+
+    setUpperMessage(
+      upperLineData.length === 0
+        ? "다음 열차정보가 없습니다."
+        : `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`
+    );
+    setNextUpperLineMsg(
+      upperLineData.length < 2
+        ? "다음 열차정보가 없습니다."
+        : `다음 열차 : ${upperLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`
+    );
+    setLowerMessage(
+      lowerLineData.length === 0
+        ? "다음 열차정보가 없습니다."
+        : `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`
+    );
+    setNextLowerLineMsg(
+      lowerLineData.length < 2
+        ? "다음 열차정보가 없습니다."
+        : `다음 열차 : ${lowerLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`
+    );
     return () => {};
   }, [seoulLineData, upperLineData, lowerLineData]);
+
   console.log("서울행", seoulLineData);
   console.log(seoulMessage);
   console.log("상행, 문산행", upperLineData);
@@ -110,17 +86,18 @@ const Info = (metroInfo) => {
   // 용문행은 급행 섬!
   // 문산, 서울역 X
   return (
+    // 오류있음
     <section className="content-container">
       <div className="content-title"></div>
       <div className="metro-direction">서울역 방면 (신촌 방향)</div>
       <div className="metro-position">{`${seoulMessage}`}</div>
-      <div className="seoul-tip">{`🚨 이 열차는 서울역이 종점입니다!`}</div>
+      <div className="seoul-tip">{`🚨 이 열차는 배차간격이 매우 깁니다!`}</div>
       <div className="metro-direction">문산 방면 (행신 방향)</div>
-      <div className="metro-position">{`${upperMessage[0]}`}</div>
-      <div className="next-train">{`${upperMessage[1]}`}</div>
+      <div className="metro-position">{`${upperMessage}`}</div>
+      <div className="next-train">{`${nextUpperLineMsg}`}</div>
       <div className="metro-direction">용문 방면 (홍대입구 방향)</div>
-      <div className="metro-position">{`${lowerMessage[0]}`}</div>
-      <div className="next-train">{`${lowerMessage[1]}`}</div>
+      <div className="metro-position">{`${lowerMessage}`}</div>
+      <div className="next-train">{`${nextLowerLineMsg}`}</div>
     </section>
   );
 };
