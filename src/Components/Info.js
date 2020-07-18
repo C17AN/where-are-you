@@ -5,7 +5,9 @@ const Info = (metroInfo) => {
   console.log(metroInfo);
   const [seoulLineData, setSeoulLineData] = useState([]);
   const [upperLineData, setUpperLineData] = useState([]);
+  const [nextUpperLineData, setNextUpperLineData] = useState([]);
   const [lowerLineData, setLowerLineData] = useState([]);
+  const [nextLowerLineData, setNextLowerLineData] = useState([]);
   const [seoulMessage, setSeoulMessage] = useState("");
   const [upperMessage, setUpperMessage] = useState("");
   const [lowerMessage, setLowerMessage] = useState("");
@@ -16,7 +18,7 @@ const Info = (metroInfo) => {
 
     const dataArray = metroInfo.data;
     dataArray.forEach((data) => {
-      if (data.bstatnNm === "서울") {
+      if (data.bstatnNm === "서울" || data.bstatnNm === "서울 (막차)") {
         setSeoulLineData(data);
       }
     });
@@ -29,7 +31,10 @@ const Info = (metroInfo) => {
     // 이건 급행 섬 (용문행 == 하행)
     setLowerLineData(
       dataArray.filter(
-        (data) => data.updnLine === "하행" && data.bstatnNm !== "서울"
+        (data) =>
+          data.updnLine === "하행" &&
+          data.bstatnNm !== "서울" &&
+          data.bstatnNm !== "서울 (막차)"
       )
     );
     return () => {};
