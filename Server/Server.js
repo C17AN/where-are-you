@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const http = require("http");
 const app = express();
 
 const port = 5000;
@@ -33,9 +34,34 @@ const getSubwayAPI = () => {
 // 최대 요청건수 = 1000건
 // 72초에 한번 요청하면 얼추 1000건 맞으니까 조금 여유있게 75초마다 갱신함
 setInterval(getSubwayAPI(), 75000);
+startKeepAlive();
 
 app.get("/api/subway", (req, res) => {
   res.send(metroInfo);
 });
 
 app.listen(port, () => console.log(`server running at port ${port}`));
+
+function startKeepAlive() {
+  setInterval(function () {
+    const options = {
+      host: "hwajeon-station-tracker.herokuapp.com",
+      port: 80,
+      path: "/",
+    };
+    http
+      .get(options, function (res) {
+        res.on("data", function (chunk) {
+          try {
+            // optional logging... disable after it's working
+            console.log("HEROKU RESPONSE: " + chunk);
+          } catch (err) {
+            console.log(err.message);
+          }
+        });
+      })
+      .on("error", function (err) {
+        console.log("Error: " + err.message);
+      });
+  }, 20 * 60 * 1000); // load every 20 minutes
+}
