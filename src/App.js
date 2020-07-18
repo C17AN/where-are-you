@@ -41,7 +41,7 @@ function App() {
     if (count === 5) {
       let today = new Date();
       console.log(today);
-      alert(`소학 파이팅! >__<!`);
+      alert(`17소학 파이팅! >__<!`);
     }
     // 인터벌 내에 함수 1회 즉시 호출, 이후 75초 주기
     const intervalID = setInterval(getSubwayAPI(), 30000);

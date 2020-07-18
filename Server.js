@@ -44,6 +44,10 @@ app.listen(port, () => console.log(`server running at port ${port}`));
 
 function startKeepAlive() {
   setInterval(function () {
+    if (currentTime >= 1 && currentTime <= 5) {
+      console.log("Not working Time");
+      return;
+    }
     const options = {
       host: "hwajeon-station-tracker.herokuapp.com",
       port: 80,
