@@ -17,11 +17,11 @@ const Info = (metroInfo) => {
     console.log("Info update");
 
     const dataArray = metroInfo.data;
-    dataArray.forEach((data) => {
-      if (data.bstatnNm === "서울" || data.bstatnNm === "서울 (막차)") {
-        setSeoulLineData(data);
-      }
-    });
+    setSeoulLineData(
+      dataArray.filter(
+        (data) => data.bstatnNm === "서울" || data.bstatnNm === "서울 (막차)"
+      )
+    );
     // 이건 급행 안섬 (문산행 == 상행)
     setUpperLineData(
       dataArray.filter(
