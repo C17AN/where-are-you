@@ -44,19 +44,56 @@ const Info = (metroInfo) => {
     console.log("Line update");
     setSeoulMessage(
       seoulLineData.length === 0
-        ? "데이터가 없습니다!"
-        : `현재 위치 : ${seoulLineData.arvlMsg2}`
+        ? "현재 운행중인 차량이 없습니다!"
+        : // 정규표현식 - [2] -> 2 로 양옆 대괄호 제거함
+          `현재 위치 : ${seoulLineData.arvlMsg2.replace(/[[\]]/g, "")}`
     );
-    setUpperMessage(
-      upperLineData.length === 0
-        ? "데이터가 없습니다!"
-        : `현재 위치 : ${upperLineData[0].arvlMsg2}`
-    );
-    setLowerMessage(
-      lowerLineData.length === 0
-        ? "데이터가 없습니다!"
-        : `현재 위치 : ${lowerLineData[0].arvlMsg2}`
-    );
+    switch (upperLineData.length) {
+      case 0:
+        setUpperMessage("현재 운행중인 차량이 없습니다!");
+        break;
+      case 1:
+        setUpperMessage([
+          `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
+          `다음 차량정보가 없습니다.`,
+        ]);
+        break;
+      case 2:
+        setUpperMessage([
+          `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
+          `다음 차량 : ${upperLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
+        ]);
+        break;
+      default:
+        setUpperMessage([
+          `현재 위치 : ${upperLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
+          `다음 차량 : ${upperLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
+        ]);
+    }
+    // switch 문 말고도 분명 더 좋은 방법이 있을 것
+    // 한번 생각해보자!
+    switch (lowerLineData.length) {
+      case 0:
+        setLowerMessage("현재 운행중인 차량이 없습니다!");
+        break;
+      case 1:
+        setLowerMessage([
+          `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
+          `다음 차량정보가 없습니다.`,
+        ]);
+        break;
+      case 2:
+        setLowerMessage([
+          `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
+          `다음 차량 : ${lowerLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
+        ]);
+        break;
+      default:
+        setLowerMessage([
+          `현재 위치 : ${lowerLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`,
+          `다음 차량 : ${lowerLineData[1].arvlMsg2.replace(/[[\]]/g, "")}`,
+        ]);
+    }
     return () => {};
   }, [seoulLineData, upperLineData, lowerLineData]);
   console.log("서울행", seoulLineData);
@@ -70,16 +107,15 @@ const Info = (metroInfo) => {
   return (
     <section className="content-container">
       <div className="content-title"></div>
-      <div className="metro-direction">서울역 방면</div>
+      <div className="metro-direction">서울역 방면 (신촌 방향)</div>
       <div className="metro-position">{`${seoulMessage}`}</div>
-      <div className="estimated-time-arrival">예상시간 : -</div>
+      <div className="seoul-tip">{`- 이 열차는 서울역이 종점입니다!`}</div>
       <div className="metro-direction">문산 방면 (행신 방향)</div>
-      <div className="metro-position">{`${upperMessage}`}</div>
-      <div className="estimated-time-arrival">예상시간 : -</div>
+      <div className="metro-position">{`${upperMessage[0]}`}</div>
+      <div className="next-train">{`${upperMessage[1]}`}</div>
       <div className="metro-direction">용문 방면 (홍대입구 방향)</div>
-      <div className="metro-position">{`${lowerMessage}`}</div>
-      <div className="estimated-time-arrival">예상시간 : -</div>
-      <hr />
+      <div className="metro-position">{`${lowerMessage[0]}`}</div>
+      <div className="next-train">{`${lowerMessage[1]}`}</div>
     </section>
   );
 };

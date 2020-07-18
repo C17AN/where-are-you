@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Loading from "./Components/Loading";
 import Info from "./Components/Info";
 import "./main.css";
-
-let count = 0;
 
 function App() {
   // 이스터에그를 위한 카운터 횟수 상태
@@ -64,7 +61,7 @@ function App() {
         {">__<!"}
       </div>
       <header className="main-header">
-        <div>경의선아 어디있니!</div>
+        <div>🚝 경의선아 어디있니! 😂</div>
       </header>
       <Info data={metroInfo}></Info>
       <div className="version">Ver 1.0.0</div>

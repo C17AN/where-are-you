@@ -17,7 +17,7 @@ const getSubwayAPI = () => {
   }
   axios
     .get(
-      `http://swopenAPI.seoul.go.kr/api/subway/79684b6576737061363475626f6853/json/realtimeStationArrival/0/5/${encodeURI(
+      `http://swopenAPI.seoul.go.kr/api/subway/79684b6576737061363475626f6853/json/realtimeStationArrival/0/10/${encodeURI(
         "화전"
       )}`
     )
