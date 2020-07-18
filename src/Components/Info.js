@@ -16,7 +16,7 @@ const Info = (metroInfo) => {
   useEffect(() => {
     console.log("Info update");
 
-    const dataArray = metroInfo.data;
+    const dataArray = metroInfo.data || [];
     setSeoulLineData(
       dataArray.filter(
         (data) => data.bstatnNm === "서울" || data.bstatnNm === "서울 (막차)"
