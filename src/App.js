@@ -61,7 +61,7 @@ function App() {
         {">__<!"}
       </div>
       <header className="main-header">
-        <div>🚝 경의선아 어디있니! 😂</div>
+        <div>🚝 경의선아 어디있니!</div>
       </header>
       <Info data={metroInfo}></Info>
       <div className="version">Ver 1.0.0</div>

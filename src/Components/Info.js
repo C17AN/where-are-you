@@ -109,7 +109,7 @@ const Info = (metroInfo) => {
       <div className="content-title"></div>
       <div className="metro-direction">서울역 방면 (신촌 방향)</div>
       <div className="metro-position">{`${seoulMessage}`}</div>
-      <div className="seoul-tip">{`- 이 열차는 서울역이 종점입니다!`}</div>
+      <div className="seoul-tip">{`🚨 이 열차는 서울역이 종점입니다!`}</div>
       <div className="metro-direction">문산 방면 (행신 방향)</div>
       <div className="metro-position">{`${upperMessage[0]}`}</div>
       <div className="next-train">{`${upperMessage[1]}`}</div>
