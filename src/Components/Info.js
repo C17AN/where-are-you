@@ -51,7 +51,7 @@ const Info = (metroInfo) => {
       seoulLineData.length === 0
         ? "다음 열차정보가 없습니다."
         : // 정규표현식 - [2] -> 2 로 양옆 대괄호 제거함
-          `현재 위치 : ${seoulLineData.arvlMsg2.replace(/[[\]]/g, "")}`
+          `현재 위치 : ${seoulLineData[0].arvlMsg2.replace(/[[\]]/g, "")}`
     );
 
     setUpperMessage(
