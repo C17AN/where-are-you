@@ -4,6 +4,8 @@
 
 ### 🏨 배포 주소 : [https://hwajeon-station-tracker.herokuapp.com/](https://hwajeon-station-tracker.herokuapp.com/)
 
+### 🌆 로컬 환경 테스트 시 : `npm run dev`
+
 ### 💻 서비스 화면 : 
 
 ---
