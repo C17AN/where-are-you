@@ -2,4 +2,6 @@
 
 ## 배포 주소 : [https://hwajeon-station-tracker.herokuapp.com/](https://hwajeon-station-tracker.herokuapp.com/)
 
-## 배포 화면 : <img src = "/result.jpg"/>
+## 배포 화면 : 
+
+<img src = "/result.jpg" width = "400"/>
